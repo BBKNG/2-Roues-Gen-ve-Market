@@ -3,170 +3,233 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>2 Roues Geneve Market</title>
+    <title>2 Roues Genève Market</title>
     <meta
       name="description"
-      content="Marketplace locale pour motos, scooters, velos electriques et equipements autour de Geneve."
+      content="Marketplace locale pour motos, scooters, vélos électriques et équipements à Genève."
     >
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="#top" aria-label="2 Roues Geneve Market">
+      <a class="brand" href="#market" aria-label="2 Roues Genève Market">
         <span class="brand-mark" aria-hidden="true">2R</span>
-        <span>2 Roues Geneve Market</span>
+        <span>2 Roues Genève Market</span>
       </a>
       <nav class="nav" aria-label="Navigation principale">
-        <a href="#annonces">Annonces</a>
-        <a href="#confiance">Confiance</a>
-        <a href="#alerte">Alerte</a>
+        <a href="#market">Marché</a>
+        <a href="#vendeur">Vendre</a>
+        <a href="#admin">Pilotage</a>
       </nav>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Changer le thème" title="Changer le thème">
+        <span aria-hidden="true">◐</span>
+      </button>
     </header>
 
-    <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
+    <main>
+      <section class="market-hero" id="market" aria-labelledby="heroTitle">
         <div class="hero-copy">
-          <p class="eyebrow">Geneve et region lemanique</p>
-          <h1 id="hero-title">2 Roues Geneve Market</h1>
+          <p class="eyebrow">Genève et région lémanique</p>
+          <h1 id="heroTitle">Le marché deux-roues local, clair et rapide.</h1>
           <p>
-            Le point de depart local pour trouver une moto, un scooter, un velo electrique
-            ou l'equipement qui va avec.
+            Trouve, compare et réserve un rendez-vous pour une moto, un scooter,
+            un vélo électrique ou un équipement vérifié autour de Genève.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#annonces">Voir les annonces</a>
-            <a class="button ghost" href="#alerte">Creer une alerte</a>
+            <a class="button primary" href="#annonces">Explorer les annonces</a>
+            <a class="button secondary" href="#vendeur">Publier une annonce</a>
           </div>
         </div>
-        <div class="showcase" aria-label="Apercu du marche deux-roues">
-          <div class="showcase-road" aria-hidden="true"></div>
-          <article class="showcase-card main-card">
-            <span class="vehicle-shape moto" aria-hidden="true"></span>
-            <strong>Yamaha MT-07</strong>
-            <span>2021 - 12'400 km</span>
-          </article>
-          <article class="showcase-card second-card">
-            <span class="vehicle-shape scooter" aria-hidden="true"></span>
-            <strong>Vespa Primavera</strong>
-            <span>125 cm3</span>
-          </article>
-          <article class="showcase-card third-card">
-            <span class="vehicle-shape ebike" aria-hidden="true"></span>
-            <strong>Velo electrique</strong>
-            <span>Batterie 500 Wh</span>
-          </article>
-        </div>
+        <aside class="hero-panel" aria-label="Résumé du marché">
+          <div class="market-map" aria-hidden="true">
+            <span class="map-road"></span>
+            <span class="map-pin pin-a"></span>
+            <span class="map-pin pin-b"></span>
+            <span class="map-pin pin-c"></span>
+          </div>
+          <dl class="metrics">
+            <div>
+              <dt id="metricListings">0</dt>
+              <dd>annonces</dd>
+            </div>
+            <div>
+              <dt id="metricAppointments">0</dt>
+              <dd>rendez-vous</dd>
+            </div>
+            <div>
+              <dt>24h</dt>
+              <dd>délai moyen</dd>
+            </div>
+          </dl>
+        </aside>
       </section>
 
-      <section class="search-band" aria-label="Recherche d'annonces">
-        <label class="search-field">
-          <span>Recherche</span>
-          <input id="searchInput" type="search" placeholder="Moto, scooter, casque..." autocomplete="off">
-        </label>
-        <div class="filters" aria-label="Categories">
-          <button class="filter is-active" type="button" data-filter="all">Tout</button>
-          <button class="filter" type="button" data-filter="moto">Motos</button>
-          <button class="filter" type="button" data-filter="scooter">Scooters</button>
-          <button class="filter" type="button" data-filter="velo">Velos</button>
-          <button class="filter" type="button" data-filter="equipement">Equipement</button>
-        </div>
+      <section class="workspace" aria-label="Interface marketplace">
+        <aside class="control-panel" aria-label="Filtres de recherche">
+          <div class="panel-section">
+            <label class="field">
+              <span>Recherche</span>
+              <input id="searchInput" type="search" placeholder="Marque, modèle, permis..." autocomplete="off">
+            </label>
+            <label class="field">
+              <span>Prix maximum</span>
+              <input id="priceRange" type="range" min="500" max="16000" step="500" value="16000">
+            </label>
+            <div class="range-line">
+              <span>CHF 500</span>
+              <strong id="priceLabel">CHF 16'000</strong>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <p class="panel-title">Catégorie</p>
+            <div class="segmented" id="categoryFilters" role="group" aria-label="Catégories">
+              <button class="segment is-active" type="button" data-category="all">Tout</button>
+              <button class="segment" type="button" data-category="moto">Motos</button>
+              <button class="segment" type="button" data-category="scooter">Scooters</button>
+              <button class="segment" type="button" data-category="velo">Vélos</button>
+              <button class="segment" type="button" data-category="equipement">Équipement</button>
+            </div>
+          </div>
+
+          <div class="panel-section checklist">
+            <p class="panel-title">Confiance</p>
+            <label><input id="expertiseOnly" type="checkbox"> Expertisé uniquement</label>
+            <label><input id="photoOnly" type="checkbox"> Avec photos</label>
+          </div>
+        </aside>
+
+        <section class="results" id="annonces" aria-labelledby="annoncesTitle">
+          <div class="results-head">
+            <div>
+              <p class="eyebrow">Annonces disponibles</p>
+              <h2 id="annoncesTitle">Sélection active</h2>
+            </div>
+            <p class="result-count" id="resultCount">0 résultat</p>
+          </div>
+          <div class="listing-grid" id="listingGrid"></div>
+          <p class="empty-state" id="emptyState" hidden>Aucune annonce ne correspond à ces critères.</p>
+        </section>
       </section>
 
-      <section class="section" id="annonces" aria-labelledby="annonces-title">
-        <div class="section-heading">
-          <p class="eyebrow">Selection locale</p>
-          <h2 id="annonces-title">Annonces recentes</h2>
-        </div>
-        <div class="listing-grid" id="listingGrid">
-          <article class="listing-card" data-category="moto" data-title="yamaha mt-07 moto">
-            <div class="listing-visual visual-moto" aria-hidden="true">
-              <span class="vehicle-shape moto"></span>
-            </div>
-            <div class="listing-content">
-              <div>
-                <p class="listing-type">Moto</p>
-                <h3>Yamaha MT-07</h3>
-                <p>2021, 12'400 km, entretien suivi.</p>
-              </div>
-              <strong>CHF 6'900</strong>
-            </div>
-          </article>
-
-          <article class="listing-card" data-category="scooter" data-title="vespa primavera scooter">
-            <div class="listing-visual visual-scooter" aria-hidden="true">
-              <span class="vehicle-shape scooter"></span>
-            </div>
-            <div class="listing-content">
-              <div>
-                <p class="listing-type">Scooter</p>
-                <h3>Vespa Primavera 125</h3>
-                <p>Parfait pour les trajets urbains.</p>
-              </div>
-              <strong>CHF 3'800</strong>
-            </div>
-          </article>
-
-          <article class="listing-card" data-category="velo" data-title="velo electrique trekking">
-            <div class="listing-visual visual-ebike" aria-hidden="true">
-              <span class="vehicle-shape ebike"></span>
-            </div>
-            <div class="listing-content">
-              <div>
-                <p class="listing-type">Velo electrique</p>
-                <h3>Trekking E-Bike</h3>
-                <p>Batterie 500 Wh, autonomie confortable.</p>
-              </div>
-              <strong>CHF 1'650</strong>
-            </div>
-          </article>
-
-          <article class="listing-card" data-category="equipement" data-title="casque integral equipement">
-            <div class="listing-visual visual-gear" aria-hidden="true">
-              <span class="helmet-shape"></span>
-            </div>
-            <div class="listing-content">
-              <div>
-                <p class="listing-type">Equipement</p>
-                <h3>Casque integral</h3>
-                <p>Taille M, visiere solaire integree.</p>
-              </div>
-              <strong>CHF 180</strong>
-            </div>
-          </article>
-        </div>
-        <p class="empty-state" id="emptyState" hidden>Aucune annonce ne correspond a cette recherche.</p>
-      </section>
-
-      <section class="trust-band" id="confiance" aria-labelledby="trust-title">
+      <section class="split-section" id="vendeur" aria-labelledby="sellerTitle">
         <div>
-          <p class="eyebrow">Transactions plus sereines</p>
-          <h2 id="trust-title">Des annonces locales, claires et verifiables</h2>
+          <p class="eyebrow">Espace vendeur</p>
+          <h2 id="sellerTitle">Publier une annonce en moins de deux minutes</h2>
+          <p class="section-copy">
+            Cette V1 prépare le flux vendeur : informations essentielles, prix,
+            localisation, statut d’expertise et contact rendez-vous.
+          </p>
+          <div class="seller-preview" id="sellerPreview" aria-live="polite">
+            <span class="vehicle-art moto-art" aria-hidden="true"></span>
+            <div>
+              <strong>Prévisualisation</strong>
+              <span>Remplis le formulaire pour voir l’annonce.</span>
+            </div>
+          </div>
         </div>
-        <ul class="trust-list">
-          <li>Prix, kilometrage et etat visibles rapidement.</li>
-          <li>Priorite aux vendeurs de Geneve et environs.</li>
-          <li>Base prete pour moderation, photos et messagerie.</li>
-        </ul>
+        <form class="seller-form" id="sellerForm">
+          <label class="field">
+            <span>Titre</span>
+            <input name="title" required placeholder="Honda CB650R 2022">
+          </label>
+          <div class="form-grid">
+            <label class="field">
+              <span>Catégorie</span>
+              <select name="category" required>
+                <option value="moto">Moto</option>
+                <option value="scooter">Scooter</option>
+                <option value="velo">Vélo électrique</option>
+                <option value="equipement">Équipement</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Prix CHF</span>
+              <input name="price" type="number" min="1" required placeholder="6900">
+            </label>
+          </div>
+          <div class="form-grid">
+            <label class="field">
+              <span>Kilométrage</span>
+              <input name="km" placeholder="12400 km">
+            </label>
+            <label class="field">
+              <span>Localisation</span>
+              <input name="location" required placeholder="Genève">
+            </label>
+          </div>
+          <label class="field">
+            <span>Description</span>
+            <textarea name="description" rows="4" required placeholder="État, entretien, options, disponibilité..."></textarea>
+          </label>
+          <div class="form-checks">
+            <label><input name="expertise" type="checkbox"> Véhicule expertisé</label>
+            <label><input name="photos" type="checkbox" checked> Photos disponibles</label>
+          </div>
+          <button class="button primary" type="submit">Ajouter à la sélection</button>
+          <p class="form-message" id="sellerMessage" role="status"></p>
+        </form>
       </section>
 
-      <section class="section alert-section" id="alerte" aria-labelledby="alert-title">
-        <div class="section-heading">
-          <p class="eyebrow">Rester informe</p>
-          <h2 id="alert-title">Recevoir les prochaines annonces</h2>
+      <section class="admin-band" id="admin" aria-labelledby="adminTitle">
+        <div>
+          <p class="eyebrow">Pilotage V1</p>
+          <h2 id="adminTitle">Suivi vendeur et modération</h2>
         </div>
-        <form class="alert-form" id="alertForm">
-          <label>
-            <span>Email</span>
-            <input type="email" name="email" placeholder="vous@example.com" required>
-          </label>
-          <button class="button primary" type="submit">Activer l'alerte</button>
-        </form>
-        <p class="form-message" id="formMessage" role="status"></p>
+        <div class="admin-grid">
+          <article>
+            <span class="admin-value" id="adminPending">0</span>
+            <strong>Annonces à vérifier</strong>
+            <p>Contrôle de prix, description et cohérence.</p>
+          </article>
+          <article>
+            <span class="admin-value" id="adminMeetings">0</span>
+            <strong>Demandes de rendez-vous</strong>
+            <p>Suivi des prospects créés depuis les fiches.</p>
+          </article>
+          <article>
+            <span class="admin-value">MVP</span>
+            <strong>Prochaine étape</strong>
+            <p>Brancher Supabase Auth, annonces et stockage photos.</p>
+          </article>
+        </div>
       </section>
     </main>
 
+    <dialog class="vehicle-dialog" id="vehicleDialog" aria-labelledby="dialogTitle">
+      <button class="dialog-close" id="dialogClose" type="button" aria-label="Fermer">×</button>
+      <div class="dialog-layout">
+        <div class="dialog-visual" id="dialogVisual" aria-hidden="true"></div>
+        <div class="dialog-content">
+          <p class="eyebrow" id="dialogCategory">Annonce</p>
+          <h2 id="dialogTitle">Titre</h2>
+          <p id="dialogDescription"></p>
+          <dl class="spec-grid" id="dialogSpecs"></dl>
+          <form class="appointment-form" id="appointmentForm">
+            <label class="field">
+              <span>Nom</span>
+              <input name="name" required placeholder="Votre nom">
+            </label>
+            <div class="form-grid">
+              <label class="field">
+                <span>Email</span>
+                <input name="email" type="email" required placeholder="vous@example.com">
+              </label>
+              <label class="field">
+                <span>Date</span>
+                <input name="date" type="date" required>
+              </label>
+            </div>
+            <button class="button primary" type="submit">Réserver un rendez-vous</button>
+          </form>
+          <p class="form-message" id="appointmentMessage" role="status"></p>
+        </div>
+      </div>
+    </dialog>
+
     <footer class="footer">
-      <span>2 Roues Geneve Market</span>
-      <span>Marketplace locale deux-roues.</span>
+      <span>2 Roues Genève Market</span>
+      <span>V1 statique prête pour Supabase et Next.js.</span>
     </footer>
 
     <script src="script.js"></script>
